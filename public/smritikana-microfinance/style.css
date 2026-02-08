@@ -132,6 +132,18 @@ body {
     gap: var(--space-6);
 }
 
+@media (max-width: 768px) {
+    .top-bar-content {
+        justify-content: center;
+        gap: var(--space-4);
+    }
+
+    .top-bar-content span:nth-child(1),
+    .top-bar-content span:nth-child(3) {
+        display: none;
+    }
+}
+
 .top-bar-content span {
     display: flex;
     align-items: center;
@@ -161,11 +173,22 @@ body {
     align-items: center;
 }
 
-.logo {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    text-decoration: none;
+@media (max-width: 480px) {
+    .nav-container {
+        height: 70px;
+    }
+
+    .logo-text {
+        font-size: 1.15rem;
+    }
+
+    .logo-subtext {
+        font-size: 0.65rem;
+    }
+
+    .logo img {
+        height: 35px !important;
+    }
 }
 
 .logo-icon {

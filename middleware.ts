@@ -48,10 +48,13 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(redirectUrl)
     }
 
-    // Redirect to dashboard if accessing auth routes with session
+    // Redirect to dashboard if accessing auth routes with session - REMOVED per user request
+    // This allow users to see the login page even if already authenticated.
+    /*
     if (isAuthRoute && session) {
         return NextResponse.redirect(new URL('/dashboard', request.url))
     }
+    */
 
     // Add security headers
     supabaseResponse.headers.set('X-Frame-Options', 'DENY')

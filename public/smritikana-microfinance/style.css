@@ -1859,3 +1859,55 @@ body {
         text-align: center;
     }
 }
+/* ============================================
+   MOBILE OVERRIDES (PRODUCTION FIX)
+   ============================================ */
+@media (max-width: 768px) {
+    .nav-menu {
+        display: none !important;
+    }
+
+    .mobile-toggle {
+        display: flex !important;
+    }
+
+    .hero-title {
+        font-size: 2.2rem !important;
+    }
+
+    .section-title {
+        font-size: 1.8rem !important;
+    }
+
+    /* Top Bar Optimization */
+    .top-bar-content {
+        justify-content: center !important;
+        font-size: 0.75rem;
+    }
+    
+    .top-bar-content span:not(:nth-child(2)) {
+        display: none !important; /* Hide compliance and email on small mobile */
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-container {
+        height: 70px !important;
+    }
+
+    .logo {
+        gap: 10px !important;
+    }
+
+    .logo img {
+        height: 38px !important;
+    }
+
+    .logo-text {
+        font-size: 1.1rem !important;
+    }
+
+    .logo-subtext {
+        font-size: 0.6rem !important;
+    }
+}

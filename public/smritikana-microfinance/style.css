@@ -107,6 +107,13 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 var(--space-6);
+    width: 100%;
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 var(--space-4);
+    }
 }
 
 /* ============================================
@@ -216,8 +223,50 @@ body {
 
 .mobile-toggle span {
     width: 25px;
-    height: 2px;
+    height: 3px;
     background: var(--color-primary);
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+.mobile-toggle.active span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+}
+
+.mobile-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.mobile-toggle.active span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+}
+
+.nav-menu.active {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    background: white;
+    padding: var(--space-8);
+    border-bottom: 2px solid var(--color-primary);
+    box-shadow: var(--shadow-xl);
+    z-index: 1000;
+    gap: var(--space-6);
+    animation: slideInDown 0.3s ease-out;
+}
+
+@keyframes slideInDown {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 /* ============================================
@@ -278,8 +327,15 @@ body {
 .hero-grid {
     display: grid;
     grid-template-columns: 1fr 400px;
-    gap: var(--space-16);
+    gap: var(--space-8);
     align-items: center;
+}
+
+@media (max-width: 1024px) {
+    .hero-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-12);
+    }
 }
 
 .badge {
@@ -879,6 +935,12 @@ body {
     margin-bottom: var(--space-10);
 }
 
+@media (max-width: 768px) {
+    .ce-preview-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 .ce-preview-card {
     padding: var(--space-4);
     border-radius: var(--radius-md);
@@ -1178,6 +1240,12 @@ body {
     grid-template-columns: 1fr 1fr;
     gap: var(--space-4);
     margin-bottom: var(--space-6);
+}
+
+@media (max-width: 480px) {
+    .bot-options {
+        grid-template-columns: 1fr;
+    }
 }
 
 .bot-option-card {

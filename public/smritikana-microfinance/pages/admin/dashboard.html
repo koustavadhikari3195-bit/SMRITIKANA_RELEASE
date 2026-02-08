@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultant Dashboard | Smritikana SETU</title>
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body class="dash-body">
+    <div class="dash-container">
+        <!-- Sidebar -->
+        <aside class="dash-sidebar">
+            <div class="sidebar-logo">
+                <img src="../../assets/Sbsss.jpg" alt="Logo" style="height: 30px; border-radius: 4px;">
+                <span>SETU Admin</span>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-view="overview">
+                    <i class="fas fa-th-large"></i> <span>Overview</span>
+                </a>
+                <a href="#" class="nav-item" data-view="assessments">
+                    <i class="fas fa-clipboard-check"></i> <span>Assessments</span>
+                </a>
+                <a href="#" class="nav-item" data-view="registrations">
+                    <i class="fas fa-file-contract"></i> <span>Registrations</span>
+                </a>
+                <a href="#" class="nav-item" data-view="consultations">
+                    <i class="fas fa-user-tie"></i> <span>Consultations</span>
+                </a>
+                <div class="nav-spacer"></div>
+                <a href="../../index.html" class="nav-item">
+                    <i class="fas fa-external-link-alt"></i> <span>View Site</span>
+                </a>
+                <button id="logoutBtn" class="nav-item logout">
+                    <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
+                </button>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dash-main">
+            <!-- Topbar -->
+            <header class="dash-topbar">
+                <div class="topbar-left">
+                    <h1 id="viewTitle">Dashboard Overview</h1>
+                </div>
+                <div class="topbar-right">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search assessments...">
+                    </div>
+                    <div class="profile-chip">
+                        <img src="https://ui-avatars.com/api/?name=Admin+User&background=1f409a&color=fff" alt="Avatar">
+                        <span>Admin</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="dash-content">
+                <!-- Overview View -->
+                <div id="overviewView" class="view-panel active">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon income"><i class="fas fa-wallet"></i></div>
+                            <div class="stat-info">
+                                <h3>Total Assessments</h3>
+                                <p class="stat-number" id="statAssessments">128</p>
+                                <span class="stat-trend up"><i class="fas fa-arrow-up"></i> 12% vs last week</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon compliance"><i class="fas fa-shield-alt"></i></div>
+                            <div class="stat-info">
+                                <h3>Pass Rate</h3>
+                                <p class="stat-number" id="statPassRate">84%</p>
+                                <span class="stat-trend highlight">Regulatory Compliant</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon leads"><i class="fas fa-users"></i></div>
+                            <div class="stat-info">
+                                <h3>Pending Leads</h3>
+                                <p class="stat-number" id="statLeads">43</p>
+                                <span class="stat-trend">Needs Follow-up</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon alert"><i class="fas fa-exclamation-triangle"></i></div>
+                            <div class="stat-info">
+                                <h3>Risk Flagged</h3>
+                                <p class="stat-number" id="statRisk">14</p>
+                                <span class="stat-trend down">Requires Audit</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="main-grid">
+                        <!-- Recent Activity Table -->
+                        <div class="grid-card recent-activity">
+                            <div class="card-header">
+                                <h2>Recent Assessments</h2>
+                                <button class="btn btn-sm outline">View All</button>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="dash-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Location</th>
+                                            <th>Amount</th>
+                                            <th>FOIR</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="assessmentTableBody">
+                                        <!-- Data injected via JS -->
+                                        <tr>
+                                            <td colspan="5" class="text-center">Loading data...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Status Distribution -->
+                        <div class="grid-card distribution">
+                            <div class="card-header">
+                                <h2>Compliance Health</h2>
+                            </div>
+                            <div class="status-summary">
+                                <div class="summary-item">
+                                    <span>Compliant Households</span>
+                                    <div class="progress-container">
+                                        <div class="progress-bar success" style="width: 82%"></div>
+                                    </div>
+                                    <span class="percentage">82%</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Over Indebted</span>
+                                    <div class="progress-container">
+                                        <div class="progress-bar warn" style="width: 12%"></div>
+                                    </div>
+                                    <span class="percentage">12%</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Income Breach</span>
+                                    <div class="progress-container">
+                                        <div class="progress-bar fail" style="width: 6%"></div>
+                                    </div>
+                                    <span class="percentage">6%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Assessments View -->
+                <div id="assessmentsView" class="view-panel">
+                    <div class="grid-card">
+                        <div class="card-header">
+                            <h2>Full Assessment Audit Log</h2>
+                            <div class="header-actions">
+                                <button class="btn btn-sm primary">Export CSV</button>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="dash-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Timestamp</th>
+                                        <th>Income (₹)</th>
+                                        <th>Debt (₹)</th>
+                                        <th>FOIR %</th>
+                                        <th>Verdict</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="fullAuditBody">
+                                    <!-- Full data injected via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- Registrations View -->
+                <div id="registrationsView" class="view-panel">
+                    <div class="grid-card">
+                        <div class="card-header">
+                            <h2>Registration Tracker Management</h2>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="dash-table">
+                                <thead>
+                                    <tr>
+                                        <th>Entity Name</th>
+                                        <th>Type</th>
+                                        <th>Current Step</th>
+                                        <th>Progress</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Gramin Sahyog Foundation</td>
+                                        <td>Section 8</td>
+                                        <td>Step 4: COI Issuance</td>
+                                        <td>
+                                            <div class="progress-container">
+                                                <div class="progress-bar success" style="width: 50%"></div>
+                                            </div>
+                                        </td>
+                                        <td><button class="btn btn-sm primary">Update</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rural Credit Microfinance</td>
+                                        <td>NBFC-MFI</td>
+                                        <td>Step 1: Documentation</td>
+                                        <td>
+                                            <div class="progress-container">
+                                                <div class="progress-bar warn" style="width: 12.5%"></div>
+                                            </div>
+                                        </td>
+                                        <td><button class="btn btn-sm primary">Update</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Consultations View -->
+                <div id="consultationsView" class="view-panel">
+                    <div class="grid-card">
+                        <div class="card-header">
+                            <h2>Inquiry Management</h2>
+                        </div>
+                        <div class="leads-list">
+                            <div class="lead-item"
+                                style="display: flex; justify-content: space-between; padding: 20px; border-bottom: 1px solid #f1f5f9;">
+                                <div>
+                                    <h4 style="margin: 0; font-size: 1rem;">Rajesh Kumar</h4>
+                                    <p style="margin: 5px 0 0; font-size: 0.85rem; color: #64748b;">Interested in:
+                                        Section 8 Setup</p>
+                                </div>
+                                <div style="text-align: right;">
+                                    <span class="status-badge pending">NEW</span>
+                                    <p style="margin: 5px 0 0; font-size: 0.75rem;">2 hours ago</p>
+                                </div>
+                            </div>
+                            <div class="lead-item"
+                                style="display: flex; justify-content: space-between; padding: 20px; border-bottom: 1px solid #f1f5f9;">
+                                <div>
+                                    <h4 style="margin: 0; font-size: 1rem;">Sunita Sharma</h4>
+                                    <p style="margin: 5px 0 0; font-size: 0.85rem; color: #64748b;">Interested in:
+                                        Compliance Audit</p>
+                                </div>
+                                <div style="text-align: right;">
+                                    <span class="status-badge pass">CONTACTED</span>
+                                    <p style="margin: 5px 0 0; font-size: 0.75rem;">1 day ago</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+
+</html>

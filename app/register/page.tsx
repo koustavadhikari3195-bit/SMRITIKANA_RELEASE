@@ -43,7 +43,12 @@ export default function RegisterPage() {
             // Profile is created automatically by database trigger
             setSuccess(true)
             setTimeout(() => {
-                router.push('/login')
+                // If Supabase auto-confirms the email, a session will be present
+                if (authData.session) {
+                    router.push('/dashboard')
+                } else {
+                    router.push('/login')
+                }
             }, 2000)
         }
 
